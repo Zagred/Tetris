@@ -17,6 +17,7 @@ namespace Tetris
         public static int currentY = 0;
         public static char[,] board = new char[height, width];
         public static char[,] piece = new char[4, 4];
+        public static bool isRotating=false;
         static Random random = new Random();
         public static int randomFigure = random.Next(4);
 
@@ -44,8 +45,11 @@ namespace Tetris
                     Figure5();
                     break;
             }
-            currentX = width / 2 - 2;
-            currentY = 0;
+            if (isRotating == false)
+            {
+                currentX = width / 2 - 2;
+                currentY = 0;
+            }
         }
 
 

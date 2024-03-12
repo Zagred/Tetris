@@ -164,6 +164,7 @@ namespace Tetris
                                 {
                                     rotatingIndex++;
                                 }
+                                isRotating=true;
                                 GeneratePiece();
                             }
                             break;
