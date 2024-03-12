@@ -238,6 +238,7 @@ namespace Tetris
             Border();
             do
             {
+                
                 Console.Clear();
                 Console.WriteLine("Points:"+score);
 
@@ -268,45 +269,51 @@ namespace Tetris
                     }
                     Console.WriteLine();
                 }
-                ConsoleKeyInfo key = Console.ReadKey();
-                input = key.KeyChar;
-                switch (key.Key)
+                if (Console.KeyAvailable)
                 {
-                    case ConsoleKey.A:
-                        if (!Colliding(currentX - 1, currentY))
-                        {
-                            currentX--;
-                        }
-                        break;
-                    case ConsoleKey.D:
-                        if (!Colliding(currentX + 1, currentY))
-                        {
-                            currentX++;
-                        }
-                        break;
-                    case ConsoleKey.S:
-                        if (!Colliding(currentX , currentY+1))
-                        {
-                            currentY++;
-                        }
-                        break;
-                    case ConsoleKey.R:
-                        if (!Colliding(currentX, currentY))
-                        {
-                            if (rotatingIndex >= 3)
+                    ConsoleKeyInfo key = Console.ReadKey();
+                    input = key.KeyChar;
+                    switch (key.Key)
+                    {
+                        case ConsoleKey.A:
+                            if (!Colliding(currentX - 1, currentY))
                             {
-                                rotatingIndex -= 3;
+                                currentX--;
                             }
-                            else if (rotatingIndex < 3)
+                            break;
+                        case ConsoleKey.D:
+                            if (!Colliding(currentX + 1, currentY))
                             {
-                                rotatingIndex++;
+                                currentX++;
                             }
-                            GeneratePiece();
-                        }
-                        break;
+                            break;
+                        case ConsoleKey.S:
+                            if (!Colliding(currentX, currentY + 1))
+                            {
+                                currentY++;
+                            }
+                            break;
+                        case ConsoleKey.R:
+                            if (!Colliding(currentX, currentY))
+                            {
+                                if (rotatingIndex >= 3)
+                                {
+                                    rotatingIndex -= 3;
+                                }
+                                else if (rotatingIndex < 3)
+                                {
+                                    rotatingIndex++;
+                                }
+                                GeneratePiece();
+                            }
+                            break;
 
+                    }
                 }
-
+                if (!Colliding(currentX, currentY + 1))
+                {
+                    currentY++;
+                }
                 if (Colliding(currentX, currentY + 1))
                 {
                     MergePiece();
@@ -321,6 +328,7 @@ namespace Tetris
                 {
                     currentY++;
                 }
+                Thread.Sleep(500);
 
             } while (input!= 'q');
             Console.Clear();
