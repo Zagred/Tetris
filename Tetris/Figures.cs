@@ -20,6 +20,8 @@ namespace Tetris
         public static bool isRotating=false;
         static Random random = new Random();
         public static int randomFigure = random.Next(4);
+        public static int level = 1;
+        public static int threadTimer = 2000;
 
         /// <summary>
         /// generate random piece

@@ -76,6 +76,8 @@ namespace Tetris
                 if (full)
                 {
                     score += 100;
+                    level += 1;
+                    threadTimer -= 100;
                     ClearLine(i);
                     i++;
                 }
@@ -101,6 +103,7 @@ namespace Tetris
                 
                 Console.Clear();
                 Console.WriteLine("Points:"+score);
+                Console.WriteLine("Current level:"+level);
 
                 for (int i = 0; i < height; i++)
                 {
@@ -189,12 +192,13 @@ namespace Tetris
                 {
                     currentY++;
                 }
-                Thread.Sleep(500);
+                Thread.Sleep(threadTimer);
 
             } while (input!= 'q');
             Console.Clear();
             Console.WriteLine("GAME OVER");
             Console.WriteLine("Points:" + score);
+            Console.WriteLine("Lever reached:"+level);
         }
 
 
