@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 namespace Tetris
 {
-    class Tetris:Figures
+    class Tetris : Figures
     {
 
         static Random random = new Random();
@@ -22,9 +23,6 @@ namespace Tetris
             GeneratePiece();
         }
 
-   
-
-
         /// <summary>
         /// check for coliding 
         /// </summary>
@@ -43,7 +41,9 @@ namespace Tetris
             }
             return false;
         }
-
+        /// <summary>
+        /// stop the movement if figures colide with X
+        /// </summary>
         static void MergePiece()
         {
             for (int i = 0; i < 4; i++)
@@ -58,7 +58,9 @@ namespace Tetris
             }
         }
 
-
+        /// <summary>
+        /// chek if the border has full line
+        /// </summary>
         static void CheckLines()
         {
             for (int i = height - 1; i >= 0; i--)
@@ -83,7 +85,10 @@ namespace Tetris
                 }
             }
         }
-
+        /// <summary>
+        /// clearing full line
+        /// </summary>
+        /// <param name="line"></param>
         static void ClearLine(int line)
         {
             for (int i = line; i > 0; i--)
@@ -94,44 +99,62 @@ namespace Tetris
                 }
             }
         }
+        /// <summary>
+        /// updates the border
+        /// </summary>
+        public static void update()
+        {
+            Console.Clear();
+            Console.WriteLine("Points:" + score);
+            Console.WriteLine("Current level:" + level);
 
-        static void Main(string[] args)
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    bool isPiece = false;
+                    for (int pi = 0; pi < 4; pi++)
+                    {
+                        for (int pj = 0; pj < 4; pj++)
+                        {
+                            if (currentY + pi >= 0 && currentY + pi < height && currentX + pj >= 0 && currentX + pj < width &&
+                                piece[pi, pj] == 'X' && i == currentY + pi && j == currentX + pj)
+                            {
+                                Console.Write('X');
+                                isPiece = true;
+                                break;
+                            }
+                        }
+                        if (isPiece)
+                            break;
+                    }
+                    if (!isPiece)
+                    {
+                        Console.Write(board[i, j]);
+                    }
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public static void Moving()
+        {
+
+        }
+
+        public static void Collide()
+        {
+
+
+        }
+        public static void game()
         {
             Border();
             do
             {
-                
-                Console.Clear();
-                Console.WriteLine("Points:"+score);
-                Console.WriteLine("Current level:"+level);
+                update();
 
-                for (int i = 0; i < height; i++)
-                {
-                    for (int j = 0; j < width; j++)
-                    {
-                        bool isPiece = false;
-                        for (int pi = 0; pi < 4; pi++)
-                        {
-                            for (int pj = 0; pj < 4; pj++)
-                            {
-                                if (currentY + pi >= 0 && currentY + pi < height && currentX + pj >= 0 && currentX + pj < width &&
-                                    piece[pi, pj] == 'X' && i == currentY + pi && j == currentX + pj)
-                                {
-                                    Console.Write('X');
-                                    isPiece = true;
-                                    break;
-                                }
-                            }
-                            if (isPiece)
-                                break;
-                        }
-                        if (!isPiece)
-                        {
-                            Console.Write(board[i, j]);
-                        }
-                    }
-                    Console.WriteLine();
-                }
+
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo key = Console.ReadKey();
@@ -167,38 +190,44 @@ namespace Tetris
                                 {
                                     rotatingIndex++;
                                 }
-                                isRotating=true;
+                                isRotating = true;
                                 GeneratePiece();
                             }
                             break;
+                    }
+                    if (Colliding(currentX, currentY + 1))
+                    {
+                        MergePiece();
+                        CheckLines();
+                        randomFigure = random.Next(6);
+                        GeneratePiece();
 
+                        if (Colliding(currentX, currentY))
+                            input = 'q';
+                    }
+                    else
+                    {
+                        currentY++;
                     }
                 }
+
                 if (!Colliding(currentX, currentY + 1))
                 {
+                    Thread.Sleep(threadTimer);
                     currentY++;
                 }
-                if (Colliding(currentX, currentY + 1))
-                {
-                    MergePiece();
-                    CheckLines();
-                    randomFigure=random.Next(4);
-                    GeneratePiece();
 
-                    if (Colliding(currentX, currentY))
-                        input = 'q';            
-                }
-                else
-                {
-                    currentY++;
-                }
-                Thread.Sleep(threadTimer);
 
-            } while (input!= 'q');
+            } while (input != 'q');
+
             Console.Clear();
             Console.WriteLine("GAME OVER");
             Console.WriteLine("Points:" + score);
-            Console.WriteLine("Lever reached:"+level);
+            Console.WriteLine("Lever reached:" + level);
+        }
+        static void Main(string[] args)
+        {
+            game();
         }
 
 

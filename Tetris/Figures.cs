@@ -19,9 +19,9 @@ namespace Tetris
         public static char[,] piece = new char[4, 4];
         public static bool isRotating=false;
         static Random random = new Random();
-        public static int randomFigure = random.Next(4);
+        public static int randomFigure = random.Next(6);
         public static int level = 1;
-        public static int threadTimer = 2000;
+        public static int threadTimer = 1000;
 
         /// <summary>
         /// generate random piece
@@ -45,6 +45,12 @@ namespace Tetris
                     break;
                 case 4:
                     Figure5();
+                    break;
+                case 5:
+                    Figure6();
+                    break;
+                case 6:
+                    Figure7();
                     break;
             }
             if (isRotating == false)
@@ -143,7 +149,7 @@ namespace Tetris
             switch (rotatingIndex)
             {
                 case 0:
-                    piece = new char[,] { { ' ', 'X', 'X', 'X' }, { ' ', ' ', 'X', ' ' }, { ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ' } };
+                    piece = new char[,] { { 'X', 'X', 'X', ' ' }, { ' ', 'X', ' ', ' ' }, { ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ' } };
 
                     break;
                 case 1:
@@ -156,6 +162,52 @@ namespace Tetris
                     break;
                 case 3:
                     piece = new char[,] { { 'X', ' ', ' ', ' ' }, { 'X', 'X', ' ', ' ' }, { 'X', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ' } };
+
+                    break;
+            }
+        }
+
+        public static void Figure6()
+        {
+            switch (rotatingIndex)
+            {
+                case 0:
+                    piece = new char[,] { { ' ', ' ', 'X', ' ' }, { ' ', 'X', 'X', ' ' }, { ' ', 'X', ' ', ' ' }, { ' ', ' ', ' ', ' ' } };
+
+                    break;
+                case 1:
+                    piece = new char[,] { { ' ', 'X', 'X', ' ' }, { ' ', ' ', 'X', 'X' }, { ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ' } };
+
+                    break;
+                case 2:
+                    piece = new char[,] { { ' ', ' ', 'X', ' ' }, { ' ', 'X', 'X', ' ' }, { ' ', 'X', ' ', ' ' }, { ' ', ' ', ' ', ' ' } };
+
+                    break;
+                case 3:
+                    piece = new char[,] { { ' ', 'X', 'X', ' ' }, { ' ', ' ', 'X', 'X' }, { ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ' } };
+
+                    break;
+            }
+        }
+        public static void Figure7()
+        {
+            switch (rotatingIndex)
+            {
+                case 0:
+                    piece = new char[,] { { ' ', 'X', ' ', ' ' }, { ' ', 'X', ' ', ' ' }, { 'X', 'X', ' ', ' ' }, { ' ', ' ', ' ', ' ' } };
+
+                    break;
+                case 1:
+                    piece = new char[,] { { ' ', ' ', 'X', ' ' }, { 'X', 'X', 'X', ' ' }, { ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ' } };
+
+                    break;
+                case 2:
+                    piece = new char[,] { { 'X', 'X', ' ', ' ' }, { 'X', ' ', ' ', ' ' }, { ' ', 'X', ' ', ' ' }, { ' ', ' ', ' ', ' ' } };
+
+                    break;
+                case 3:
+                    piece = new char[,] { { 'X', 'X', 'X', ' ' }, { 'X', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ' } };
+
 
                     break;
             }
