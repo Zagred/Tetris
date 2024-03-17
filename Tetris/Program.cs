@@ -136,17 +136,6 @@ namespace Tetris
                 Console.WriteLine();
             }
         }
-
-        public static void Moving()
-        {
-
-        }
-
-        public static void Collide()
-        {
-
-
-        }
         public static void game()
         {
             Border();
@@ -229,7 +218,6 @@ namespace Tetris
         {
             game();
         }
-
 
     }
 }
