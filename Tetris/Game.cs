@@ -82,7 +82,7 @@ namespace Tetris
                 {
                     score += 100;
                     level += 1;
-                    threadTimer -= 100;
+                    //threadTimer -= 100;
                     ClearLine(i);
                     i++;
                 }
@@ -105,7 +105,7 @@ namespace Tetris
         /// <summary>
         /// updates the border
         /// </summary>
-        public static void update()
+        public static void draw()
         {
             Console.Clear();
             Console.WriteLine("Points:" + score);
@@ -139,82 +139,84 @@ namespace Tetris
                 Console.WriteLine();
             }
         }
-        public static void game()
+        public static void movement()
         {
-            Border();
-            for(; ; ) { 
-                update();
-
-
-                if (Console.KeyAvailable)
-                {
-                    ConsoleKeyInfo key = Console.ReadKey();
-                    input = key.KeyChar;
-                    switch (key.Key)
+            ConsoleKeyInfo key = Console.ReadKey();
+            input = key.KeyChar;
+            switch (key.Key)
+            {
+                case ConsoleKey.A:
+                    if (!Colliding(currentX - 1, currentY))
                     {
-                        case ConsoleKey.A:
-                            if (!Colliding(currentX - 1, currentY))
-                            {
-                                currentX--;
-                            }
-                            break;
-                        case ConsoleKey.D:
-                            if (!Colliding(currentX + 1, currentY))
-                            {
-                                currentX++;
-                            }
-                            break;
-                        case ConsoleKey.S:
-                            if (!Colliding(currentX, currentY + 1))
-                            {
-                                currentY++;
-                            }
-                            break;
-                        case ConsoleKey.R:
-                            if (!Colliding(currentX, currentY))
-                            {
-                                if (rotatingIndex >= 3)
-                                {
-                                    rotatingIndex -= 3;
-                                }
-                                else if (rotatingIndex < 3)
-                                {
-                                    rotatingIndex++;
-                                }
-                                isRotating = true;
-                                GeneratePiece();
-                            }
-                            break;
-                        case ConsoleKey.Q:
-                            break;
-                            Console.Clear();
-                            Console.WriteLine("GAME OVER");
-                            Console.WriteLine("Points:" + score);
-                            Console.WriteLine("Lever reached:" + level);
-                            break;
+                        currentX--;
                     }
-                    if (Colliding(currentX, currentY + 1))
+                    break;
+                case ConsoleKey.D:
+                    if (!Colliding(currentX + 1, currentY))
                     {
-                        MergePiece();
-                        CheckLines();
-                        randomFigure = random.Next(6);
-                        GeneratePiece();
-
-                        if (Colliding(currentX, currentY))
-                            input = 'q';
+                        currentX++;
                     }
-                    else
+                    break;
+                case ConsoleKey.S:
+                    if (!Colliding(currentX, currentY + 1))
                     {
                         currentY++;
                     }
-                }
+                    break;
+                case ConsoleKey.R:
+                    if (!Colliding(currentX, currentY) && !Colliding(currentX, currentY + 1) && !Colliding(currentX - 1, currentY) && !Colliding(currentX + 1, currentY))
+                    {
+                        if (rotatingIndex >= 3)
+                        {
+                            rotatingIndex -= 3;
+                        }
+                        else if (rotatingIndex < 3)
+                        {
+                            rotatingIndex++;
+                        }
+                        isRotating = true;
+                        GeneratePiece();
+                    }
+                    break;
+            }
+        }
+        public static void game()
+        {
+            Border();
+            do { 
+                draw();
 
-                if (!Colliding(currentX, currentY + 1))
+                //if (Console.KeyAvailable)
+                //{
+
+                movement();
+                //}
+                if (Colliding(currentX, currentY + 1))
                 {
-                    Thread.Sleep(threadTimer);
+                    MergePiece();
+                    CheckLines();
+                    randomFigure = random.Next(6);
+                    isRotating = false;
+                    GeneratePiece();
+
+                    if (Colliding(currentX, currentY))
+                        input = 'q';
+                }
+                else
+                {
                     currentY++;
                 }
-            }    
+                //if (!Colliding(currentX, currentY + 1))
+                //{
+                //    Thread.Sleep(threadTimer);
+                //    currentY++;
+                //}
+            } while (input != 'q');
+            Console.Clear();
+            Console.WriteLine("GAME OVER");
+            Console.WriteLine("Points:" + score);
+            Console.WriteLine("Lever reached:" + level);
         }
+
     }
 }
