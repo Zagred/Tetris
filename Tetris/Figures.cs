@@ -62,7 +62,7 @@ namespace Tetris
 
 
         /// <summary>
-        /// all figures using in tetris 1 to 5
+        /// all figures using in tetris 1 to 7
         /// </summary>
         public static void Figure1()
         {
@@ -207,8 +207,6 @@ namespace Tetris
                     break;
                 case 3:
                     piece = new char[,] { { 'X', 'X', 'X', ' ' }, { 'X', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ' } };
-
-
                     break;
             }
         }
